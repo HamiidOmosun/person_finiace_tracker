@@ -17,32 +17,93 @@ class FinanceManager:
   def total_income(self):
     total = 0
     for t in self.transactions:
-      if t['type'] == "income":
-        total += t['amount']
+      if t.type == "income":
+        total += t.amount 
     return total
   
   def total_expenses(self):
     expenses = 0
     for e in self.transactions:
-      if e['type'] == "expense":
-        expenses += e['amount']
+      if e.type == "expense":
+        expenses += abs(e.amount)
     return expenses
   
   def check_balance(self):
-    income = self.total_income
-    expense = self.total_expenses
+    income = self.total_income()
+    expense = self.total_expenses()
     balance = income - expense
     return balance
   
-  def filter_transactions(self, type_trans, category):
-    pass
-  
+  def filter_transactions(self):
+    #use a for loop to iterate in a list or check items in list
+    if self.user_trans == 'type of transaction':
+      type_value =input("Enter Income or Expense: ")
+      
+      filtered = []
+      
+      for transaction in self.transactions:
+          if transaction == type_value:
+            filtered.appened(type_value)
+      return filtered
+    
+    elif self.user_trans == 'category':
+      type_value = input("Enter any of the following(rent, entertainment, food, \
+                        clothes, salary, investment: )")
+      
+      filtered = []
+      
+      for transaction in self.transactions:
+        if transaction == type_value:
+          filtered.append(type_value)
+      return filtered
+    
+    else:
+      return False
+          
   def add_transaction(self):
-    pass
+    #ask user for transaction details 
+    #append to list of transcation
+    amount = int(input("Enter amount: ").strip())
+    type_trans = input("Enter transcation type (income or Expense)").lower().strip()
+    category = input("Enter Category(rent, entertainment, food, clothes, salary, investment: )").lower().strip()
+      
+    if amount <= 0:
+        print("Invalid amount")
+        return False
+
+    if type_trans not in ['income', 'expense']:
+        print("Must be 'income' or 'expense'")
+        return False
+
+    if category not in ['rent', 'entertainment', 'food', 'clothes', 'salary', 'investment']:
+        print("Must be a valid category")
+        return False
+    
+    transaction = Transaction(amount, type_trans, category)
+    
+    self.transactions.append(transaction)
       
   def show_summary(self):
-    pass
+    # Ask user if they want to see the summary
+    choice_user = input("Would you like to see a summary of your transactions? (yes/no): ").strip().lower()
+    
+    if choice_user != 'yes':
+        print("Summary cancelled.")
+        return
 
+    # If no transactions exist
+    if not self.transactions:
+        print("No transactions to summarize.")
+        return #using just return stops the function from runing any futher
+ 
+    print("\nYour Transaction Summary:")
+    for txn in self.transactions:
+        print({
+            "amount": txn.amount,
+            "type of transaction": txn.type,
+            "category": txn.category,
+            "date": txn.date.strftime("%Y-%m-%d %H:%M:%S")
+        })
 
 class FileHandler:
   #this handles the file or csv path of the user
