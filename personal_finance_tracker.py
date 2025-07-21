@@ -1,6 +1,6 @@
 from datetime import datetime
 
-class Transcations:
+class Transaction:
   # this takes transcation data like amount, type of transction; income or expenses, 
   # Category; rent or grocesis or entertainment, date
   def __init__(self, amount, type_of_transaction, category):
@@ -8,11 +8,11 @@ class Transcations:
     self.type = type_of_transaction
     self.category = category
     self.date = datetime.now()
-
+    
 class FinanceManager:
   #this keeps track of all action transcations and manager the finance
   def __init__(self):
-    pass
+    self.transactions = []
   
   def total_income(self):
     pass
@@ -23,15 +23,12 @@ class FinanceManager:
   def check_balance(self):
     pass
   
-  def get_transaction(self):
+  def filter_transaction(self, type, category):
     pass
   
-  def add_income(self):
+  def add_transaction(self):
     pass
-  
-  def add_expenses(self):
-    pass
-  
+      
   def show_summary(self):
     pass
 
@@ -52,7 +49,7 @@ class CliController:
   def __init__(self):
     pass
   
-  def user_input(self):
+  def collect_transactions(self, amount, type_of_transaction, category):
     pass
   
   def menu(self):
