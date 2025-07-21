@@ -3,9 +3,9 @@ from datetime import datetime
 class Transaction:
   # this takes transcation data like amount, type of transction; income or expenses, 
   # Category; rent or grocesis or entertainment, date
-  def __init__(self, amount, type_of_transaction, category):
+  def __init__(self, amount, type_trans, category):
     self.amount = amount
-    self.type = type_of_transaction
+    self.type = type_trans
     self.category = category
     self.date = datetime.now()
     
@@ -15,15 +15,26 @@ class FinanceManager:
     self.transactions = []
   
   def total_income(self):
-    pass
+    total = 0
+    for t in self.transactions:
+      if t['type'] == "income":
+        total += t['amount']
+    return total
   
   def total_expenses(self):
-    pass
+    expenses = 0
+    for e in self.transactions:
+      if e['type'] == "expense":
+        expenses += e['amount']
+    return expenses
   
   def check_balance(self):
-    pass
+    income = self.total_income
+    expense = self.total_expenses
+    balance = income - expense
+    return balance
   
-  def filter_transaction(self, type, category):
+  def filter_transactions(self, type_trans, category):
     pass
   
   def add_transaction(self):
@@ -37,8 +48,6 @@ class FileHandler:
   #this handles the file or csv path of the user
   def __init__(self, filename="transactions.csv"):
     self.filename = filename
-    self.data = []
-    pass
   
   def load_file(self):
     pass
@@ -51,7 +60,7 @@ class CliController:
   def __init__(self):
     self.controller = FinanceManager()
   
-  def collect_transactions(self, amount, type_of_transaction, category):
+  def collect_transactions(self, amount, type_trans, category):
     pass
   
   def menu(self):
