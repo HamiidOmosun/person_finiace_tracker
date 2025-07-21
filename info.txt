@@ -1,0 +1,68 @@
+A personal finance tracker CLI (Command Line Interface) app works by letting users manage their income, 
+expenses, budgets, and financial goals directly through text-based commands. 
+Here's a breakdown of how it typically works:
+
+1. User Input via Commands
+
+The user types commands like:
+ - ask user the task they want to perfom
+ - show a menu 
+ - perform choosen task
+
+2. Data Storage
+
+ All financial entries (expenses, incomes) are saved.
+ Storage can be:
+
+   A local file (like JSON, CSV, or plain text)
+   A lightweight database (like SQLite)
+   Cloud-based (if more advanced)
+
+3. Categorization
+
+ Each transaction usually includes:
+
+   Amount
+   Type (income or expense)
+   Category (e.g., rent, groceries, entertainment)
+   Date (defaults to current date or user-specified)
+
+4. Calculations & Summaries
+
+ The app processes stored data to show:
+
+   Total income and expenses
+   Balance (income - expenses)
+   Breakdown by category
+   Daily, weekly, or monthly summaries
+
+5. Budgeting
+
+ Users can optionally set budgets:
+
+   For overall spending
+   Per category (e.g., \$200/month for food)
+ The app warns or informs users when they're near or over their limit.
+
+6. Reporting and Exporting
+
+ The app can show reports like:
+
+   “What did I spend the most on last month?”
+   “How much am I saving per month?”
+ Some apps offer exporting data to CSV or other formats.
+
+7. Persistence and Reuse
+
+ Users can quit and relaunch the app, and their data persists.
+ Some offer command history or recurring entries.
+
+8. Optional Features
+
+ Password protection or encryption for data
+ Multi-currency support
+ Integration with online APIs (e.g., currency exchange rates)
+
+
+Let me know if you want to explore what typical commands or features such an app might include.
+
