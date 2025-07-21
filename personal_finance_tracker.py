@@ -35,7 +35,9 @@ class FinanceManager:
 
 class FileHandler:
   #this handles the file or csv path of the user
-  def __init__(self):
+  def __init__(self, filename="transactions.csv"):
+    self.filename = filename
+    self.data = []
     pass
   
   def load_file(self):
@@ -47,7 +49,7 @@ class FileHandler:
 class CliController:
   #this handles how to the user interracters with the cli
   def __init__(self):
-    pass
+    self.controller = FinanceManager()
   
   def collect_transactions(self, amount, type_of_transaction, category):
     pass
