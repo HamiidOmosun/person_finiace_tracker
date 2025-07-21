@@ -64,5 +64,3 @@ The user types commands like:
  Integration with online APIs (e.g., currency exchange rates)
 
 
-Let me know if you want to explore what typical commands or features such an app might include.
-
