@@ -1,3 +1,6 @@
+class Finance:
+  pass
+
 class FinanceManager:
   pass
 
