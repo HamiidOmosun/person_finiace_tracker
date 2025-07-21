@@ -1,11 +1,11 @@
-class Finance:
+class Transcations:
   pass
 
 class FinanceManager:
   pass
 
-class loadFile:
+class FileHandler:
   pass
 
-class User:
+class CliController:
   pass
