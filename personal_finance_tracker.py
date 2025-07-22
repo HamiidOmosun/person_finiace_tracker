@@ -60,13 +60,9 @@ class FinanceManager:
     else:
       return False
           
-  def add_transaction(self):
+  def add_transaction(self, amount, type_trans, category):
     #ask user for transaction details 
     #append to list of transcation
-    amount = int(input("Enter amount: ").strip())
-    type_trans = input("Enter transcation type (income or Expense)").lower().strip()
-    category = input("Enter Category(rent, entertainment, food, clothes, salary, investment: )").lower().strip()
-      
     if amount <= 0:
         print("Invalid amount")
         return False
@@ -141,8 +137,13 @@ class CliController:
   def __init__(self):
     self.controller = FinanceManager()
   
-  def collect_transactions(self, amount, type_trans, category):
-    pass
+  def collect_transactions(self):
+    
+    amount = int(input("Enter amount: ").strip())
+    type_trans = input("Enter transcation type (income or Expense)").lower().strip()
+    category = input("Enter Category(rent, entertainment, food, clothes, salary, investment: )").lower().strip()
+
+    return amount, type_trans, category
   
   def menu(self):
     pass
