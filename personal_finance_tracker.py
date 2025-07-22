@@ -1,5 +1,4 @@
 from datetime import datetime
-import csv
 
 class Transaction:
   # this takes transcation data like amount, type of transction; income or expenses, 
