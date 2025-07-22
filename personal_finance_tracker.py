@@ -1,4 +1,5 @@
 from datetime import datetime
+import csv
 
 class Transaction:
   # this takes transcation data like amount, type of transction; income or expenses, 
@@ -107,14 +108,34 @@ class FinanceManager:
 
 class FileHandler:
   #this handles the file or csv path of the user
-  def __init__(self, filename="transactions.csv"):
+  def __init__(self,file, filename="transactions.csv"):
     self.filename = filename
   
   def load_file(self):
-    pass
+    #open the file with "r" to read the content of the file
+    with open(self.filename, "r") as file:
+      transaction = []
+    #use a for lop to iterate over each line
+      for line in file:
+    #clean the line and split it by commas
+        parts = line.strip().split(',')
+    #assign values form split lines
+        amount = float(parts[0])
+        type_trans = parts[1]
+        category = parts[2]
+        date = datetime.strptime(parts[3], "%Y-%m-%d %H:%M:%S.%f")
+    #rebuild transaction list 
+        transaction = Transaction(amount, type_trans, category)
+        transaction.date = date
+    #add transaction to list 
+        self.transactions.append(transaction)
+    return transaction
   
-  def save_file(self):
-    pass
+  def save_file(self, transactions):
+    with open(self.filename, "w") as file:
+        for txn in transactions:
+            line = f"{txn.amount},{txn.type},{txn.category},{txn.date}\n"
+            file.write(line)
 
 class CliController:
   #this handles how to the user interracters with the cli
