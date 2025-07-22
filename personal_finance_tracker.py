@@ -138,7 +138,6 @@ class CliController:
     self.controller = FinanceManager()
   
   def collect_transactions(self):
-    
     amount = int(input("Enter amount: ").strip())
     type_trans = input("Enter transcation type (income or Expense)").lower().strip()
     category = input("Enter Category(rent, entertainment, food, clothes, salary, investment: )").lower().strip()
@@ -146,10 +145,41 @@ class CliController:
     return amount, type_trans, category
   
   def menu(self):
+    print("\n====== E-commerce System =====")
+    print("1. Add an item")
+    print("2. Display Inventory")
+    print("3. Filter items by price")
+    print("4. Delete an item by ID")
+    print("5. Save Inventory")
+    print("6. Exit")
     pass
   
   def user_choice(self):
-    pass
+    while True:
+        self.menu()
+        choice = input("Enter your choice (1-6): ").strip()
+
+        if choice == "1":
+            # Collect and add an item
+            ...
+        elif choice == "2":
+            # Display inventory
+            ...
+        elif choice == "3":
+            # Filter by price
+            ...
+        elif choice == "4":
+            # Delete item
+            ...
+        elif choice == "5":
+            # Save file
+            ...
+        elif choice == "6":
+            print("Exiting...")
+            break
+        else:
+            print("Invalid choice. Try again.")
+
   
   def run(self):
     pass
