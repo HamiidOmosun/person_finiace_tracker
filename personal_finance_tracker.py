@@ -1,14 +1,14 @@
 from datetime import datetime
+import csv
 
 class Transaction:
   # this takes transcation data like amount, type of transction; income or expenses, 
   # Category; rent or grocesis or entertainment, date
-  def __init__(self, amount, type_trans, category):
+  def __init__(self, amount, type_trans, category,date=None):
     self.amount = amount
     self.type = type_trans
     self.category = category
-    self.date = datetime.now()
-    
+    self.date = datetime.strptime(date, "%Y-%m-%d %H:%M:%S") if date else datetime.now()
 class FinanceManager:
   #this keeps track of all action transcations and manager the finance
   def __init__(self):
@@ -43,13 +43,13 @@ class FinanceManager:
       filtered = []
       
       for transaction in self.transactions:
-          if transaction == type_value:
+          if transaction.type == type_value:
             filtered.appened(type_value)
       return filtered
     
     elif user_trans == 'category':
-      type_value = input("Enter any of the following(rent, entertainment, food, \
-                        clothes, salary, investment: )")
+      type_value = input("Enter any of the following(rent, entertainment, food,"
+                        "\nclothes, salary, investment: )")
       
       filtered = []
       
@@ -103,35 +103,36 @@ class FinanceManager:
         })
 
 class FileHandler:
-  #this handles the file or csv path of the user
-  def __init__(self, filename="transactions.csv"):
-    self.filename = filename
-  
+  def __init__(self, file):
+    self.file = file
+    self.transaction = []
+
   def load_file(self):
-    #open the file with "r" to read the content of the file
-    with open(self.filename, "r") as file:
-      transaction = []
-    #use a for lop to iterate over each line
-      for line in file:
-    #clean the line and split it by commas
-        parts = line.strip().split(',')
-    #assign values form split lines
-        amount = float(parts[0])
-        type_trans = parts[1]
-        category = parts[2]
-        date = datetime.strptime(parts[3], "%Y-%m-%d %H:%M:%S.%f")
-    #rebuild transaction list 
-        transaction = Transaction(amount, type_trans, category)
-        transaction.date = date
-    #add transaction to list 
-        self.transactions.append(transaction)
-    return transaction
+    try:
+      with open(self.file, "r") as file:
+        reader = csv.DictReader(file)
+        self.transactions = [Transaction(
+                      int(row["amount"]),
+                      row["type of transaction"],
+                      row["category"],
+                      row["date"])
+                          for row in reader]
+
+    except FileNotFoundError:
+      print("No file...")
   
   def save_file(self, transactions):
-    with open(self.filename, "w") as file:
-        for txn in transactions:
-            line = f"{txn.amount},{txn.type},{txn.category},{txn.date}\n"
-            file.write(line)
+      with open(self.file, "w", newline="") as file:
+          fieldnames = ["amount", "type of transaction", "category", "date"]
+          writer = csv.DictWriter(file, fieldnames=fieldnames)
+          writer.writeheader()
+          for txn in transactions:
+              writer.writerow({
+                  "amount": txn.amount,
+                  "type of transaction": txn.type,
+                  "category": txn.category,
+                  "date": txn.date.strftime("%Y-%m-%d %H:%M:%S")
+              })
 
 class CliController:
   #this handles how to the user interracters with the cli
@@ -157,6 +158,8 @@ class CliController:
     print("8. Exit")
   
   def user_choice(self):
+    self.save = FileHandler("transactions.csv")
+    self.save.load_file()
     while True:
         choice = input("Enter your choice (1-6): ").strip()
 
@@ -164,28 +167,30 @@ class CliController:
             result = self.collect_transactions()
             if result:
               amount, type_trans, category = result
-              self.FinanceManager.add_transaction(amount, type_trans, category)
+              self.controller.add_transaction(amount, type_trans, category)
+              self.save.save_file(self.controller.transactions)
             else:
               print("Print Transaction Entry Cancelled")
               return False
         elif choice == "2":
-            self.FinanceManager.show_summary()
+            self.controller.show_summary()
         elif choice == "3":
-            transaction = self.Transaction
-            if transaction:
-              self.FinanceManager.check_balance()
+            self.transaction
+            if self.transaction:
+              print(self.controller.check_balance())
         elif choice == "4":
-            transaction = self.Transaction
+            transaction = self.transaction
             if transaction:
-              self.FinanceManager.total_income()
+              print(self.controller.total_income())
         elif choice == "5":
-            transaction = self.Transaction
+            transaction = self.transaction
             if transaction:
-              self.FinanceManager.total_expenses()
+              print(self.controller.total_expenses())
         elif choice == "6":
-            self.FinanceManager.filter_transactions()
+            self.controller.filter_transactions()
         elif choice == "7":
-            self.FileHandler.load_file()
+            self.controller.transactions = self.save.transactions
+            print("Transactions successfully loaded.")
         elif choice == "8":
           print("You exited the menu ")
           break
@@ -195,7 +200,7 @@ class CliController:
   def run(self):
       while True:
         self.menu()
-        should_continue = self.user_choice.more_info()
+        should_continue = self.user_choice()
         if should_continue is False:
             print("Goodbye! Exiting the program.")
             break
