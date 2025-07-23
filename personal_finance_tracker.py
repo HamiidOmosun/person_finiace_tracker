@@ -35,8 +35,9 @@ class FinanceManager:
     return balance
   
   def filter_transactions(self):
+    user_trans = input("Search by (type of transaction or Category)").lower().strip()
     #use a for loop to iterate in a list or check items in list
-    if self.user_trans == 'type of transaction':
+    if user_trans == 'type of transaction':
       type_value =input("Enter Income or Expense: ")
       
       filtered = []
@@ -46,7 +47,7 @@ class FinanceManager:
             filtered.appened(type_value)
       return filtered
     
-    elif self.user_trans == 'category':
+    elif user_trans == 'category':
       type_value = input("Enter any of the following(rent, entertainment, food, \
                         clothes, salary, investment: )")
       
@@ -103,7 +104,7 @@ class FinanceManager:
 
 class FileHandler:
   #this handles the file or csv path of the user
-  def __init__(self,file, filename="transactions.csv"):
+  def __init__(self, filename="transactions.csv"):
     self.filename = filename
   
   def load_file(self):
@@ -145,41 +146,61 @@ class CliController:
     return amount, type_trans, category
   
   def menu(self):
-    print("\n====== E-commerce System =====")
-    print("1. Add an item")
-    print("2. Display Inventory")
-    print("3. Filter items by price")
-    print("4. Delete an item by ID")
-    print("5. Save Inventory")
-    print("6. Exit")
-    pass
+    print("\n====== Finance-Tracker =====")
+    print("1. Add Transaction")
+    print("2. Show sumarry")
+    print("3. Check Balance")
+    print("4. check total income")
+    print("5. check total expenses")
+    print("6. filter transaction")
+    print("7. Load csv")
+    print("8. Exit")
   
   def user_choice(self):
     while True:
-        self.menu()
         choice = input("Enter your choice (1-6): ").strip()
 
         if choice == "1":
-            # Collect and add an item
-            ...
+            result = self.collect_transactions()
+            if result:
+              amount, type_trans, category = result
+              self.FinanceManager.add_transaction(amount, type_trans, category)
+            else:
+              print("Print Transaction Entry Cancelled")
+              return False
         elif choice == "2":
-            # Display inventory
-            ...
+            self.FinanceManager.show_summary()
         elif choice == "3":
-            # Filter by price
-            ...
+            transaction = self.Transaction
+            if transaction:
+              self.FinanceManager.check_balance()
         elif choice == "4":
-            # Delete item
-            ...
+            transaction = self.Transaction
+            if transaction:
+              self.FinanceManager.total_income()
         elif choice == "5":
-            # Save file
-            ...
+            transaction = self.Transaction
+            if transaction:
+              self.FinanceManager.total_expenses()
         elif choice == "6":
-            print("Exiting...")
-            break
+            self.FinanceManager.filter_transactions()
+        elif choice == "7":
+            self.FileHandler.load_file()
+        elif choice == "8":
+          print("You exited the menu ")
+          break
         else:
             print("Invalid choice. Try again.")
 
-  
   def run(self):
-    pass
+      while True:
+        self.menu()
+        should_continue = self.user_choice.more_info()
+        if should_continue is False:
+            print("Goodbye! Exiting the program.")
+            break
+          
+          
+if __name__ == "__main__":
+  user = CliController()
+  user.run()
