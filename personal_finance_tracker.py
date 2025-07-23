@@ -175,17 +175,17 @@ class CliController:
         elif choice == "2":
             self.controller.show_summary()
         elif choice == "3":
-            self.transaction
-            if self.transaction:
-              print(self.controller.check_balance())
+            if self.controller.transactions:
+              print(f"Balance: {self.controller.check_balance()}")
+            else:
+              print("No transactions yet.")
         elif choice == "4":
-            transaction = self.transaction
-            if transaction:
-              print(self.controller.total_income())
+            if self.controller.transactions:
+              print(f"total income: {self.controller.total_income()}")
         elif choice == "5":
-            transaction = self.transaction
+            transaction = self.controller.transactions
             if transaction:
-              print(self.controller.total_expenses())
+              print(f"total expense : {self.controller.total_expenses()}")
         elif choice == "6":
             self.controller.filter_transactions()
         elif choice == "7":
