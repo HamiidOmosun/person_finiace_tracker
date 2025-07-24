@@ -35,31 +35,44 @@ class FinanceManager:
     return balance
   
   def filter_transactions(self):
-    user_trans = input("Search by (type of transaction or Category)").lower().strip()
-    #use a for loop to iterate in a list or check items in list
-    if user_trans == 'type of transaction':
-      type_value =input("Enter Income or Expense: ")
-      
-      filtered = []
-      
-      for transaction in self.transactions:
-          if transaction.type == type_value:
-            filtered.appened(type_value)
-      return filtered
-    
-    elif user_trans == 'category':
-      type_value = input("Enter any of the following(rent, entertainment, food,"
-                        "\nclothes, salary, investment: )")
-      
-      filtered = []
-      
-      for transaction in self.transactions:
-        if transaction == type_value:
-          filtered.append(type_value)
-      return filtered
-    
-    else:
-      return False
+      user_trans = input("Search by (type of transaction or category): ").lower().strip()
+
+      if user_trans == 'type of transaction':
+          type_value = input("Enter 'income' or 'expense': ").lower().strip()
+
+          filtered = []
+          for transaction in self.transactions:
+              if transaction.type == type_value:
+                  filtered.append(transaction)
+
+          if not filtered:
+              print("No transactions found for that type.")
+          else:
+              print("\nFiltered Transactions by Type:")
+              for t in filtered:
+                  print(f"{t.amount} - {t.type} - {t.category} - {t.date.strftime('%Y-%m-%d %H:%M:%S')}")
+          return filtered
+
+      elif user_trans == 'category':
+          type_value = input("Enter category (rent, entertainment, food, clothes, salary, investment): ").lower().strip()
+
+          filtered = []
+          for transaction in self.transactions:
+              if transaction.category == type_value:
+                  filtered.append(transaction)
+
+          if not filtered:
+              print("No transactions found for that category.")
+          else:
+              print("\nFiltered Transactions by Category:")
+              for t in filtered:
+                  print(f"{t.amount} - {t.type} - {t.category} - {t.date.strftime('%Y-%m-%d %H:%M:%S')}")
+          return filtered
+
+      else:
+          print("Invalid filter option. Please choose 'type of transaction' or 'category'.")
+          return []
+
           
   def add_transaction(self, amount, type_trans, category):
     #ask user for transaction details 
@@ -161,7 +174,7 @@ class CliController:
     self.save = FileHandler("transactions.csv")
     self.save.load_file()
     while True:
-        choice = input("Enter your choice (1-6): ").strip()
+        choice = input("Enter your choice (1-8): ").strip()
 
         if choice == "1":
             result = self.collect_transactions()
@@ -193,9 +206,11 @@ class CliController:
             print("Transactions successfully loaded.")
         elif choice == "8":
           print("You exited the menu ")
-          break
+          return False
         else:
-            print("Invalid choice. Try again.")
+            print("Invalid choice. Try again.") 
+
+      
 
   def run(self):
       while True:
